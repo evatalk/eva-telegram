@@ -1,3 +1,4 @@
+from request_handler import Requestor
 
 class BotCommands(object):
     
@@ -6,4 +7,8 @@ class BotCommands(object):
         """Greetings message"""
     
         update.message.reply_text(
-            'Greetings, {}.'.format(update.message.from_user.first_name))
+            'Bem-vindo, {}!!'.format(update.message.from_user.first_name))
+
+    @classmethod
+    def ask_a_question(cls, bot, update):
+        pass
