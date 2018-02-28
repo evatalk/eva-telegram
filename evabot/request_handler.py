@@ -1,5 +1,8 @@
 import requests
 
+from utils import MessageInfoHandler
+
+
 class Requestor(object):
 
     @classmethod
@@ -11,3 +14,9 @@ class Requestor(object):
 
         return request.text
         
+
+class Response(object):
+    
+    @classmethod
+    def request_to_response(cls, message):
+        return MessageInfoHandler.serializer(message)
