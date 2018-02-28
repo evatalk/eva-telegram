@@ -1,25 +1,12 @@
-from telegram.ext import Updater, CommandHandler
+import telepot
+from telepot.loop import MessageLoop
 
-from commands import BotCommands
+def handle(msg):
+    print(msg['text'])
 
 def main():
-    # Create the Updater and pass it your bot's token.
-    # Replace 'TOKEN' with your Bot's API token.
-    updater = Updater("TOKEN")
-
-    # Start the Bot
-    updater.start_polling()
-
-    # Get the dispatcher to register handlers
-    dispatcher = updater.dispatcher
-
-    # Register handlers.
-    dispatcher.add_handler(CommandHandler('start', BotCommands.start))
-
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
-    updater.idle()
+    bot = telepot.Bot(TOKEN)
+    MessageLoop(bot, handle).run_as_thread()
 
 
 if __name__ == '__main__':
