@@ -5,7 +5,7 @@ from commands import BotCommands
 def main():
     # Create the Updater and pass it your bot's token.
     # Replace 'TOKEN' with your Bot's API token.
-    updater = Updater("515344383:AAGJjjzTMvP4TuHzRpQyx1Vx6r5s-QVlx_E")
+    updater = Updater("TOKEN")
 
     # Start the Bot
     updater.start_polling()
