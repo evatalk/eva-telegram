@@ -1,13 +1,16 @@
 import telepot
 from telepot.loop import MessageLoop
+
 from request_handler import Response
+from utils import MessageInfoHandler
+
+BOT = telepot.Bot("515344383:AAGJjjzTMvP4TuHzRpQyx1Vx6r5s-QVlx_E")
 
 def handle(msg):
-    print(Response.request_to_response(msg))
+    BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), Response.request_to_response(msg))
 
 def main():
-    bot = telepot.Bot("515344383:AAGJjjzTMvP4TuHzRpQyx1Vx6r5s-QVlx_E")
-    MessageLoop(bot, handle).run_as_thread()
+    MessageLoop(BOT, handle).run_as_thread()
 
 
 if __name__ == '__main__':

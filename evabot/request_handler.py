@@ -10,7 +10,8 @@ class Requestor(object):
         """Sends the user message to EVA's API"""
 
         request = requests.post(
-            '0.0.0.0:8000', data = {'message': text_message})
+            '0.0.0.0:8000', data = {
+                'info': MessageInfoHandler.serialized_data(text_message)})
 
         return request.text
         
@@ -19,4 +20,5 @@ class Response(object):
     
     @classmethod
     def request_to_response(cls, message):
-        return MessageInfoHandler.serializer(message)
+        #return MessageInfoHandler.serialized_data(message)
+        return Requestor.post(message)
