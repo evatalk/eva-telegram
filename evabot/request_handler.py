@@ -27,5 +27,5 @@ class Response(object):
 
     @classmethod
     def request_to_response(cls, message):
-        # return MessageInfoHandler.serialized_data(message)
+
         return Requestor.post(message)
