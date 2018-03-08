@@ -1,9 +1,11 @@
 import telepot
-from request_handler import Response
 from telepot.loop import MessageLoop
+
+from request_handler import Response
+from settings import TELEGRAM_TOKEN
 from utils import MessageInfoHandler
 
-BOT = telepot.Bot("TOKEN")
+BOT = telepot.Bot(TELEGRAM_TOKEN)
 
 
 def handle(msg):

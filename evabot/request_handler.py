@@ -1,5 +1,6 @@
 import requests
 
+from settings import EVA_HOST_URL
 from utils import MessageInfoHandler
 
 
@@ -16,8 +17,8 @@ class Requestor(object):
         # docker ps
         # docker inspect <hash_do_container>
         # procurar pelo campo "IPAddress"
-        request = requests.post("http://<HOST>:<PORT>/api/message/handler", data={
-                                "message": MessageInfoHandler.serialized_data(text_message)})
+        request = requests.post(f"http://{EVA_HOST_URL}/api/message/handler",
+                                data=MessageInfoHandler.serialized_data(text_message))
 
         return request.json()["response_message"]
 
@@ -26,5 +27,5 @@ class Response(object):
 
     @classmethod
     def request_to_response(cls, message):
-        # return MessageInfoHandler.serialized_data(message)
+
         return Requestor.post(message)
