@@ -7,7 +7,7 @@ from utils import MessageInfoHandler
 class Requestor(object):
 
     @classmethod
-    def post(cls, text_message):
+    def post(cls, text_message, access_token):
         """Sends the user message to EVA's API"""
 
         # Caso você esteja rodando a API da EVA com o docker,
@@ -17,10 +17,11 @@ class Requestor(object):
         # docker ps
         # docker inspect <hash_do_container>
         # procurar pelo campo "IPAddress"
-        request = requests.post(f"http://{EVA_HOST_URL}/api/message/handler",
-                                data=MessageInfoHandler.serialized_data(text_message))
+        request = requests.post(f"http://{EVA_HOST_URL}/api/eva/request",
+                                data=MessageInfoHandler.serialized_data(text_message),
+                                headers={'Authorization': 'Token ' + access_token})
 
-        return request.json()["response_message"]
+        return request.json()
 
 
 class Response(object):
