@@ -1,14 +1,14 @@
 import telepot
-from telepot.loop import MessageLoop
-
 from request_handler import Response
 from settings import TELEGRAM_TOKEN
+from telepot.loop import MessageLoop
 from utils import MessageInfoHandler
 
 BOT = telepot.Bot(TELEGRAM_TOKEN)
 
 
 def handle(msg):
+    # Chamar o controller
     BOT.sendMessage(MessageInfoHandler.get_chat_id(msg),
                     Response.request_to_response(msg))
 
