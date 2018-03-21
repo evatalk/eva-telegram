@@ -14,3 +14,4 @@ load_dotenv(dotenv_path)
 # Accessing variables.
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 EVA_HOST_URL = os.getenv('EVA_HOST_URL')
+DB = os.getenv("DB")
