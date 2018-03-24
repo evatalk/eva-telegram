@@ -16,6 +16,14 @@ CREATE TABLE users (
 );
 """)
 
+cursor.execute("""
+CREATE TABLE registerstep (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        step INTEGER NOT NULL,
+        telegram_id VARCHAR(255) NOT NULL
+);
+""")
+
 print('Tabela criada com sucesso.')
 # desconectando...
 conn.close()
