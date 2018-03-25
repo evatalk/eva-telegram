@@ -1,6 +1,6 @@
 import sqlite3
 
-from evabot.settings import DB
+from settings import DB
 
 
 class Connection(object):
@@ -26,7 +26,7 @@ class Connection(object):
         self.cursor.execute("""
             INSERT INTO registerstep (step, telegram_id)
             VALUES (1, ?)
-            """, (telegram_id))
+            """, (telegram_id,))
 
         self.conn.commit()
 
