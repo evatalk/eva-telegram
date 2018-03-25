@@ -18,11 +18,21 @@ class Requestor(object):
         # docker inspect <hash_do_container>
         # procurar pelo campo "IPAddress"
         request = requests.post(f"http://{EVA_HOST_URL}/api/eva/request",
-                                data=MessageInfoHandler.serialized_data(text_message),
+                                data=MessageInfoHandler.serialized_data(
+                                    text_message),
                                 headers={'Authorization': 'Token ' + access_token})
 
         return request.json()
 
+    @classmethod
+    def register(cls, credentials):
+        request = requests.post(
+            f"http://{EVA_HOST_URL}/api/eva/auth/register", data=credentials)
+
+        if request.status_code == 201:
+            return request.json()["token"]
+        
+        return None
 
 class Response(object):
 
