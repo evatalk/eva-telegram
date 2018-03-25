@@ -1,7 +1,7 @@
 class MessageInfoHandler(object):
     
     @classmethod
-    def _get_user_id(cls, message):
+    def get_user_id(cls, message):
         try:
             user_id = message['from']['id']
         except KeyError:
@@ -12,7 +12,7 @@ class MessageInfoHandler(object):
         return user_id
 
     @classmethod
-    def _get_user_first_name(cls, message):
+    def get_user_first_name(cls, message):
         try:
             user_id = message['from']['first_name']
         except KeyError:
@@ -23,7 +23,7 @@ class MessageInfoHandler(object):
         return user_id
 
     @classmethod
-    def _get_sent_message_by_user(cls, message):
+    def get_sent_message_by_user(cls, message):
         try:
             message_sent = message['text']
         except KeyError:
@@ -50,9 +50,9 @@ class MessageInfoHandler(object):
         body_data = {}
 
         body_data['provider'] = "Telegram"
-        body_data['message'] = cls._get_sent_message_by_user(message)
-        body_data['user_first_name'] = cls._get_user_first_name(message)
-        body_data['provider_user_id'] = cls._get_user_id(message)
+        body_data['message'] = cls.get_sent_message_by_user(message)
+        body_data['user_first_name'] = cls.get_user_first_name(message)
+        body_data['provider_user_id'] = cls.get_user_id(message)
 
         return body_data
         # return cls._get_sent_message_by_user(message)
