@@ -1,20 +1,19 @@
 import telepot
 from handlers.requestor import Response
-from settings import TELEGRAM_TOKEN
+from settings import BOT
 from telepot.loop import MessageLoop
 from handlers.reader import MessageInfoHandler
+from controllers.main import EVAController
 
-BOT = telepot.Bot(TELEGRAM_TOKEN)
-
-
-def handle(msg):
-    # Chamar o controller
-    BOT.sendMessage(MessageInfoHandler.get_chat_id(msg),
-                    Response.request_to_response(msg))
+# def handle(msg):
+#    # Chamar o controller
+#    BOT.sendMessage(MessageInfoHandler.get_chat_id(msg),
+#                    Response.request_to_response(msg))
 
 
 def main():
-    MessageLoop(BOT, handle).run_as_thread()
+    eva = EVAController()
+    MessageLoop(BOT, eva.main).run_as_thread()
 
 
 if __name__ == '__main__':
