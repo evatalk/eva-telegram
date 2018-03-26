@@ -1,6 +1,7 @@
 import requests
 
 from settings import EVA_HOST_URL
+
 from .reader import MessageInfoHandler
 
 
@@ -31,8 +32,9 @@ class Requestor(object):
 
         if request.status_code == 201:
             return request.json()["token"]
-        
+
         return None
+
 
 class Response(object):
 
