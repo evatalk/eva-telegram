@@ -1,7 +1,8 @@
 import re
 
+
 class MessageInfoHandler(object):
-    
+
     @classmethod
     def get_user_id(cls, message):
         try:
@@ -79,10 +80,25 @@ class CredentialsHandler(object):
 
     @classmethod
     def _format_cpf_to_request(cls, cpf):
-        adjusted_cpf = "".join(re.split('[` \-=~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', cpf))
+        adjusted_cpf = "".join(
+            re.split('[` \-=~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', cpf))
         return adjusted_cpf
-    
+
     @classmethod
     def _format_email_to_request(cls, email):
         adjusted_email = "".join(re.split(" ", email))
         return adjusted_email
+
+
+class ResponseHandlers(object):
+    @classmethod
+    def get_intent(cls, response):
+        return response["intent"]
+
+    @classmethod
+    def get_content(cls, response):
+        return response["content"]
+
+    @classmethod
+    def get_message(cls, response):
+        return response["message"]
