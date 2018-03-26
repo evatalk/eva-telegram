@@ -3,5 +3,6 @@ RESPONSES = {
     "WRONG_CREDENTIALS": ["Ops!! Parece que os dados informados não conferem. Por favor, tente novamente."],
     "MALFORMED_MESSAGE_CREDENTIALS": ["Para me ajudar, insira os dados da seguinte maneira:\nE-mail, CPF\n\n Primeiramente o e-mail e depois o CPF, separados por vírgula."],
     "CONFIRM_CREDENTIALS": ["Certo, só para confirmar, o e-mail informado foi {} e o número de CPF {}. Estarei verificando os dados agora. Por favor, aguarde."],
-    "WELCOME": ["Olá!! Em que posso ser útil?"],
+    "WELCOME": ["Olá!! Em que posso lhe ser útil?"],
+    "WAIT_MESSAGES": ["Certo.. Aguarde alguns instantes enquanto eu faço a consulta no nosso banco de dados, está bem? :)"],
 }
