@@ -1,5 +1,6 @@
 from database.connection import Connection
 
+
 class Verifier(object):
     @classmethod
     def is_registered(self, telegram_id):
@@ -11,7 +12,7 @@ class Verifier(object):
             return False
 
         return True
-        
+
     @classmethod
     def is_in_the_first_step(self, telegram_id):
         conn = Connection()
@@ -19,3 +20,11 @@ class Verifier(object):
         conn.close_connection()
 
         return user_register_step is None
+
+    @classmethod
+    def only_numbers(self, entry):
+        try:
+            new_entry = int(entry)
+        except ValueError:
+            return False
+        return True
