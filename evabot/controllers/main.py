@@ -29,9 +29,6 @@ class EVAController(object):
 
     @classmethod
     def register_user(self, msg):
-        # TODO - Conferir se o CPF é realmente válido, se consiste de números
-        # Caso não seja, enviar msg pro usuário avisando da mal formatação.
-        # - Criar mais mensagens de erro de formatação.
         telegram_user_name = MessageInfoHandler.get_user_first_name(msg)
         telegram_user_id = MessageInfoHandler.get_user_id(msg)
 
@@ -84,8 +81,6 @@ class EVAController(object):
 
     @classmethod
     def request(cls, access_token, msg):
-        # irá fazer a requisição para a API
-        # e depois enviar a resposta para o response analisar
         request = Requestor()
         response = request.post(msg, access_token)
 
