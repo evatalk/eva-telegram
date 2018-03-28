@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 
 from settings import DB
 
@@ -40,6 +41,36 @@ class Connection(object):
             "SELECT step FROM registerstep WHERE telegram_id = ?", (telegram_id,))
 
         return self.cursor.fetchone()
+
+    def register_trial(self, telegram_id):
+        self.cursor.execute("""
+            INSERT INTO trials (telegram_id, trials)
+            VALUES (?, 0)
+            """, (telegram_id,))
+
+        self.conn.commit()
+
+    def get_trial(self, telegram_id):
+        self.cursor.execute(
+            "SELECT trials FROM trails WHERE telegram_id = ?", (telegram_id,))
+
+        return self.cursor.fetchone()
+
+    def update_trial(self, telegram_id, trial):
+        self.cursor.execute("""
+            UPDATE trials SET trials = ? WHERE telegram_id = ?    
+            """, (trial, telegram_id))
+
+    def get_blocked_date(self, telegram_id):
+        self.cursor.execute(
+            "SELECT blocked FROM trails WHERE telegram_id = ?", (telegram_id,))
+
+        return self.cursor.fetchone()
+
+    def update_blocked_date(self, telegram_id):
+        self.cursor.execute("""
+            UPDATE trials SET trials = ? WHERE telegram_id = ?    
+            """, (datetime.now(), telegram_id))
 
     def close_connection(self):
         self.conn.close()
