@@ -1,5 +1,5 @@
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from settings import DB
 
@@ -69,8 +69,8 @@ class Connection(object):
 
     def update_blocked_date(self, telegram_id):
         self.cursor.execute("""
-            UPDATE trials SET trials = ? WHERE telegram_id = ?    
-            """, (datetime.now(), telegram_id))
+            UPDATE trials SET blocked = ? WHERE telegram_id = ?    
+            """, (datetime.now() + timedelta(days=1), telegram_id))
 
     def close_connection(self):
         self.conn.close()
