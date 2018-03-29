@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from database.connection import Connection
 
 
@@ -28,3 +30,14 @@ class Verifier(object):
         except ValueError:
             return False
         return True
+
+    @classmethod
+    def is_blocked(self, telegram_id):
+        conn = Connection()
+        trials = conn.get_blocked_date(telegram_id)
+        if trials:
+            BLOCKED_DATE_INDEX = 0
+            blocked_day = trials[BLOCKED_DATE_INDEX]
+            return blocked_day > datetime.now()
+
+        return False
