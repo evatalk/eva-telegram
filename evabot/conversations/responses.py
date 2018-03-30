@@ -5,4 +5,5 @@ RESPONSES = {
     "CONFIRM_CREDENTIALS": ["Certo, só para confirmar, o e-mail informado foi {} e o número de CPF {}. Estarei verificando os dados agora. Por favor, aguarde."],
     "WELCOME": ["Olá!! Em que posso lhe ser útil?"],
     "WAIT_MESSAGES": ["Certo.. Aguarde alguns instantes enquanto eu faço a consulta no nosso banco de dados, está bem? :)"],
+    "BLOCKED": ["Infelizmente, por motivos de segurança, estaremos bloqueando suas requisições em um dia. Caso você ache que os dados inseridos estão corretos, peço que você entre em contato com o EVG. Tente novamente amanhã, desculpe o transtorno."]
 }

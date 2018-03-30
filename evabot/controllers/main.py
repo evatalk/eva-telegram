@@ -36,22 +36,60 @@ class EVAController(object):
             conn = Connection()
             conn.register_step(telegram_user_id)
             conn.update_step(telegram_user_id)
+            # Registra número de tentativa de cadastro
+            conn.register_trial(telegram_user_id)
             conn.close_connection()
 
             response = choice(RESPONSES["NOT_REGISTERED_MESSAGES"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
+        # Verificar qual o número de tentativa do usuário e atualizar
+        # Se for igual a três, deverá bloquea-lo
+        # Caso seja igual a três, comparar com o dia de hoje, caso seja menor
+        # o trial deverá voltar para zero.
         # verificar dados e cadastrar usuário
+
+        # Verifica se o usuário está bloqueado
+        if Verifier.is_blocked(telegram_user_id):
+            response = choice(RESPONSES["BLOCKED"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
+
+        # Verifica se o usuário já possui as três tentativas e está
+        # apto a ser bloqueado
+        if Verifier.is_blockeable(telegram_user_id):
+            # bloquear o usuário e zerar o número de tentativas.
+            conn = Connection()
+            conn.update_blocked_date(telegram_user_id)
+            conn.register_trial(telegram_user_id, 0)
+            conn.close_connection()
+
+            response = choice(RESPONSES["BLOCKED"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
+
+        # Recebe a mensagem enviada pelo usuário afim de retirar as credenciais
         user_credentials = MessageInfoHandler.get_sent_message_by_user(msg)
 
         try:
             email, cpf = CredentialsHandler.split(user_credentials)
         except ValueError:
+            # Atualizar o trial
+            conn = Connection()
+            INDEX_NUMBER_OF_TRIALS = 0
+            current_trial = conn.get_trial(telegram_user_id)
+            conn.register_trial(telegram_user_id, current_trial + 1)
+            conn.close_connection()
+
             response = choice(RESPONSES["MALFORMED_MESSAGE_CREDENTIALS"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
-        # Verifica se o cpf possui apenas números
         if not Verifier.only_numbers(cpf):
+            # Atualizar o trial
+            conn = Connection()
+            INDEX_NUMBER_OF_TRIALS = 0
+            current_trial = conn.get_trial(telegram_user_id)
+            conn.register_trial(telegram_user_id, current_trial + 1)
+            conn.close_connection()
+            
             response = choice(RESPONSES["MALFORMED_MESSAGE_CREDENTIALS"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
@@ -68,6 +106,13 @@ class EVAController(object):
 
         # Verifica se a API retornou algum token
         if user_token is None:
+            # Atualizar o trial
+            conn = Connection()
+            INDEX_NUMBER_OF_TRIALS = 0
+            current_trial = conn.get_trial(telegram_user_id)
+            conn.register_trial(telegram_user_id, current_trial + 1)
+            conn.close_connection()
+            
             response = choice(RESPONSES["WRONG_CREDENTIALS"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 

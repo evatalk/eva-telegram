@@ -41,7 +41,7 @@ class Verifier(object):
             return blocked_day > datetime.now()
 
         return False
-    
+
     @classmethod
     def is_blockeable(self, telegram_id):
         conn = Connection()
