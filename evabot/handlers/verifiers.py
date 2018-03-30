@@ -41,3 +41,14 @@ class Verifier(object):
             return blocked_day > datetime.now()
 
         return False
+    
+    @classmethod
+    def is_blockeable(self, telegram_id):
+        conn = Connection()
+        trials_tuple = conn.get_trial(telegram_id)
+        if trials_tuple:
+            INDEX_NUMBER_OF_TRIALS = 0
+            trials = trials_tuple[INDEX_NUMBER_OF_TRIALS]
+            return trials >= 3
+
+        return False
