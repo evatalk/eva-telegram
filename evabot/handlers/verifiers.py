@@ -38,6 +38,9 @@ class Verifier(object):
         if trials:
             BLOCKED_DATE_INDEX = 0
             blocked_day = trials[BLOCKED_DATE_INDEX]
+            if blocked_day == None:
+                return False
+
             return blocked_day > datetime.now()
 
         return False
