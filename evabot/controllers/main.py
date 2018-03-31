@@ -60,7 +60,7 @@ class EVAController(object):
             # bloquear o usuário e zerar o número de tentativas.
             conn = Connection()
             conn.update_blocked_date(telegram_user_id)
-            conn.register_trial(telegram_user_id, 0)
+            conn.update_trial(telegram_user_id, 0)
             conn.close_connection()
 
             response = choice(RESPONSES["BLOCKED"])
@@ -76,7 +76,8 @@ class EVAController(object):
             conn = Connection()
             INDEX_NUMBER_OF_TRIALS = 0
             current_trial = conn.get_trial(telegram_user_id)
-            conn.register_trial(telegram_user_id, current_trial + 1)
+            trial = current_trial[INDEX_NUMBER_OF_TRIALS]
+            conn.update_trial(telegram_user_id, int(trial) + 1)
             conn.close_connection()
 
             response = choice(RESPONSES["MALFORMED_MESSAGE_CREDENTIALS"])
@@ -87,9 +88,10 @@ class EVAController(object):
             conn = Connection()
             INDEX_NUMBER_OF_TRIALS = 0
             current_trial = conn.get_trial(telegram_user_id)
-            conn.register_trial(telegram_user_id, current_trial + 1)
+            trial = current_trial[INDEX_NUMBER_OF_TRIALS]
+            conn.update_trial(telegram_user_id, int(trial) + 1)
             conn.close_connection()
-            
+
             response = choice(RESPONSES["MALFORMED_MESSAGE_CREDENTIALS"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
@@ -110,9 +112,10 @@ class EVAController(object):
             conn = Connection()
             INDEX_NUMBER_OF_TRIALS = 0
             current_trial = conn.get_trial(telegram_user_id)
-            conn.register_trial(telegram_user_id, current_trial + 1)
+            trial = current_trial[INDEX_NUMBER_OF_TRIALS]
+            conn.update_trial(telegram_user_id, int(trial) + 1)
             conn.close_connection()
-            
+
             response = choice(RESPONSES["WRONG_CREDENTIALS"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 

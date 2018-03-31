@@ -35,6 +35,8 @@ class Connection(object):
         self.cursor.execute("""
             UPDATE registerstep SET step = 2 WHERE telegram_id = ?    
             """, (telegram_id,))
+        
+        self.conn.commit()
 
     def get_step(self, telegram_id):
         self.cursor.execute(
@@ -52,7 +54,7 @@ class Connection(object):
 
     def get_trial(self, telegram_id):
         self.cursor.execute(
-            "SELECT trials FROM trails WHERE telegram_id = ?", (telegram_id,))
+            "SELECT trials FROM trials WHERE telegram_id = ?", (telegram_id,))
 
         return self.cursor.fetchone()
 
@@ -60,10 +62,12 @@ class Connection(object):
         self.cursor.execute("""
             UPDATE trials SET trials = ? WHERE telegram_id = ?    
             """, (trial, telegram_id))
+        print(trial)
+        self.conn.commit()
 
     def get_blocked_date(self, telegram_id):
         self.cursor.execute(
-            "SELECT blocked FROM trails WHERE telegram_id = ?", (telegram_id,))
+            "SELECT blocked FROM trials WHERE telegram_id = ?", (telegram_id,))
 
         return self.cursor.fetchone()
 
@@ -71,6 +75,8 @@ class Connection(object):
         self.cursor.execute("""
             UPDATE trials SET blocked = ? WHERE telegram_id = ?    
             """, (datetime.now() + timedelta(days=1), telegram_id))
+        
+        self.conn.commit()
 
     def close_connection(self):
         self.conn.close()
