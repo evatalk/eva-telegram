@@ -1,9 +1,8 @@
 class Jsonifier(object):
     @classmethod
-    def user_credentials(self, email, cpf):
+    def user_credentials(self, credentials):
         json_response = {
-            "email": email,
-            "cpf": cpf,
+            "credentials": credentials,
         }
 
         return json_response
