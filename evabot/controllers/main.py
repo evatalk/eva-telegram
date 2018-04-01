@@ -67,11 +67,20 @@ class EVAController(object):
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
         # Recebe a mensagem enviada pelo usuário afim de retirar as credenciais
-        user_credentials = MessageInfoHandler.get_sent_message_by_user(msg)
+        received_message = MessageInfoHandler.get_sent_message_by_user(msg)
 
-        try:
-            email, cpf = CredentialsHandler.split(user_credentials)
-        except ValueError:
+        extracted_cpf = CredentialsHandler.format_cpf_to_request(
+            received_message)
+
+        # Verifica se utilizando os manipuladores, conseguimos extrair o CPF
+        # do usuário, caso seja, o received_message vira o número do CPF do usuário
+        if Verifier.only_numbers(extracted_cpf):
+            received_message = extracted_cpf
+
+        # Caso não seja um CPF, verifica se é um e-mail
+        # se não for, nós atualizaremos o número de tentativas
+        # restantes do usuário.
+        elif not Verifier.is_email(received_message):
             # Atualizar o trial
             conn = Connection()
             INDEX_NUMBER_OF_TRIALS = 0
@@ -82,26 +91,13 @@ class EVAController(object):
 
             response = choice(RESPONSES["MALFORMED_MESSAGE_CREDENTIALS"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
-
-        if not Verifier.only_numbers(cpf):
-            # Atualizar o trial
-            conn = Connection()
-            INDEX_NUMBER_OF_TRIALS = 0
-            current_trial = conn.get_trial(telegram_user_id)
-            trial = current_trial[INDEX_NUMBER_OF_TRIALS]
-            conn.update_trial(telegram_user_id, int(trial) + 1)
-            conn.close_connection()
-
-            response = choice(RESPONSES["MALFORMED_MESSAGE_CREDENTIALS"])
-            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
-
-        # Confirma as credenciais - ALTERAR
-        response = choice(RESPONSES["CONFIRM_CREDENTIALS"])
-        BOT.sendMessage(MessageInfoHandler.get_chat_id(msg),
-                        response.format(email, cpf))
 
         # Jsonifica as mensagens
-        credentials = Jsonifier.user_credentials(email, cpf)
+        credentials = Jsonifier.user_credentials(received_message)
+
+        # Manda msg para usuário informando que a consulta está sendo feita.
+        response = choice(RESPONSES["REGISTER_WAIT_MESSAGES"])
+        BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
         # Enviar os dados Jsonificados para a API
         user_token = Requestor.register(credentials)
@@ -130,6 +126,12 @@ class EVAController(object):
     @classmethod
     def request(cls, access_token, msg):
         request = Requestor()
+
+        # Envia uma mensagem para informar ao usuário que os dados
+        # estão sendo processados
+        wait_message = choice(RESPONSES["WAIT_MESSAGES"])
+        BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), wait_message)
+
         response = request.post(msg, access_token)
 
         intent = ResponseHandlers.get_intent(response)
@@ -148,12 +150,23 @@ class EVAController(object):
         elif intent == "history":
             eva_response = ResponseHandlers.get_content(response)
             history = HistoryResponseWriter.concatenate_data(eva_response)
+
+            # Envia uma mensagem pedindo desculpas pela demora
+            apologize_message = choice(RESPONSES["APOLOGIZE"])
+            BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), apologize_message)
+
+            # Itera sobre os dados do históricos informados pela API
             for data in history:
                 BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), data)
             return
 
         elif intent == "certificate":
             eva_response = ResponseHandlers.get_content(response)
+
+            # Envia uma mensagem pedindo desculpas pela demora
+            apologize_message = choice(RESPONSES["APOLOGIZE"])
+            BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), apologize_message)
+
             try:
                 BOT.sendMessage(MessageInfoHandler.get_chat_id(
                     msg), eva_response["after_2015"])
@@ -173,6 +186,10 @@ class EVAController(object):
             return
 
         elif intent == "open_to_subscription":
+            # Envia uma mensagem pedindo desculpas pela demora
+            apologize_message = choice(RESPONSES["APOLOGIZE"])
+            BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), apologize_message)
+            
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), "Você não possui inscrições abertas no momento.")
 
         else:  # default
