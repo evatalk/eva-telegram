@@ -13,9 +13,8 @@ RESPONSES = {
     "BLOCKED": [
         "Infelizmente, por motivos de segurança, estaremos bloqueando suas solicitações de registro por um dia. Caso você ache que os dados inseridos estão corretos, peço que você entre em contato com o EVG. Tente novamente amanhã, desculpe o transtorno. :("],
     "WAIT_MESSAGES": [
-        "Um momento..",
-        "Um instante..",
-        "Um segundo.."],
+        "...",
+        "hmmm..",],
     "APOLOGIZE": [
         "Opa, Desculpe a demora!! aqui estão os dados que você solicitou! :D",
         "Desculpe a demora, hehehe.. aqui estão os dados que você solicitou! :)",
