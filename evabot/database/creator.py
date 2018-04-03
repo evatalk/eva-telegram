@@ -24,6 +24,16 @@ CREATE TABLE registerstep (
 );
 """)
 
+
+cursor.execute("""
+CREATE TABLE trials (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        telegram_id VARCHAR(255) NOT NULL,
+        trials INTEGER NOT NULL,
+        blocked timestamp
+);
+""")
+
 print('Tabela criada com sucesso.')
 # desconectando...
 conn.close()

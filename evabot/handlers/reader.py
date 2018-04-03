@@ -63,31 +63,10 @@ class MessageInfoHandler(object):
 
 class CredentialsHandler(object):
     @classmethod
-    def split(cls, credentials):
-        EMAIL_INDEX = 0
-        CPF_INDEX = 1
-        try:
-            credentials_data = credentials.split(",")
-            email = credentials_data[EMAIL_INDEX]
-            cpf = credentials_data[CPF_INDEX]
-        except (IndexError, ValueError):
-            raise ValueError
-
-        email = cls._format_email_to_request(email)
-        cpf = cls._format_cpf_to_request(cpf)
-
-        return email, cpf
-
-    @classmethod
-    def _format_cpf_to_request(cls, cpf):
+    def format_cpf_to_request(cls, cpf):
         adjusted_cpf = "".join(
             re.split('[` \-=~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', cpf))
         return adjusted_cpf
-
-    @classmethod
-    def _format_email_to_request(cls, email):
-        adjusted_email = "".join(re.split(" ", email))
-        return adjusted_email
 
 
 class ResponseHandlers(object):

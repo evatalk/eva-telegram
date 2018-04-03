@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime, timedelta
 
 from settings import DB
 
@@ -34,12 +35,48 @@ class Connection(object):
         self.cursor.execute("""
             UPDATE registerstep SET step = 2 WHERE telegram_id = ?    
             """, (telegram_id,))
+        
+        self.conn.commit()
 
     def get_step(self, telegram_id):
         self.cursor.execute(
             "SELECT step FROM registerstep WHERE telegram_id = ?", (telegram_id,))
 
         return self.cursor.fetchone()
+
+    def register_trial(self, telegram_id):
+        self.cursor.execute("""
+            INSERT INTO trials (telegram_id, trials)
+            VALUES (?, 0)
+            """, (telegram_id,))
+
+        self.conn.commit()
+
+    def get_trial(self, telegram_id):
+        self.cursor.execute(
+            "SELECT trials FROM trials WHERE telegram_id = ?", (telegram_id,))
+
+        return self.cursor.fetchone()
+
+    def update_trial(self, telegram_id, trial):
+        self.cursor.execute("""
+            UPDATE trials SET trials = ? WHERE telegram_id = ?    
+            """, (trial, telegram_id))
+        print(trial)
+        self.conn.commit()
+
+    def get_blocked_date(self, telegram_id):
+        self.cursor.execute(
+            "SELECT blocked FROM trials WHERE telegram_id = ?", (telegram_id,))
+
+        return self.cursor.fetchone()
+
+    def update_blocked_date(self, telegram_id):
+        self.cursor.execute("""
+            UPDATE trials SET blocked = ? WHERE telegram_id = ?    
+            """, (datetime.now() + timedelta(days=1), telegram_id))
+        
+        self.conn.commit()
 
     def close_connection(self):
         self.conn.close()
