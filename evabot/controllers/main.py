@@ -7,7 +7,8 @@ from handlers.reader import (CredentialsHandler, MessageInfoHandler,
                              ResponseHandlers)
 from handlers.requestor import Requestor
 from handlers.verifiers import Verifier
-from handlers.writer import HistoryResponseWriter, Jsonifier
+from handlers.writer import (CertificateResponseWriter, HistoryResponseWriter,
+                             Jsonifier)
 from settings import BOT
 
 
@@ -140,24 +141,31 @@ class EVAController(object):
     @classmethod
     def intent_map(cls, msg, intent, response):
         if intent == "greetings":
-            eva_message = ResponseHandlers.get_message(response)
-            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), eva_message)
+            response_message = choice(RESPONSES["GREETINGS"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
 
         elif intent == "cursing":
-            eva_message = ResponseHandlers.get_message(response)
-            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), eva_message)
+            response_message = choice(RESPONSES["CURSING"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
 
         elif intent == "history":
             eva_response = ResponseHandlers.get_content(response)
+
             history = HistoryResponseWriter.concatenate_data(eva_response)
+            # Checa a fim de verificar se existem dados a serem exibidos.
+            if not history:
+                empty_message = choice(RESPONSES["EMPTY"])
+                return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), empty_message)
 
             # Envia uma mensagem pedindo desculpas pela demora
             apologize_message = choice(RESPONSES["APOLOGIZE"])
-            BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), apologize_message)
+            BOT.sendMessage(MessageInfoHandler.get_chat_id(
+                msg), apologize_message)
 
             # Itera sobre os dados do históricos informados pela API
             for data in history:
                 BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), data)
+
             return
 
         elif intent == "certificate":
@@ -165,33 +173,51 @@ class EVAController(object):
 
             # Envia uma mensagem pedindo desculpas pela demora
             apologize_message = choice(RESPONSES["APOLOGIZE"])
-            BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), apologize_message)
 
-            try:
+            BOT.sendMessage(MessageInfoHandler.get_chat_id(
+                msg), apologize_message)
+
+            # Checa a fim de verificar se existem dados a serem exibidos.
+            if (not eva_response["after_2015"]
+                and not eva_response["between_2013_to_2014"]
+                    and not eva_response["before_2013"]):
+
+                empty_message = choice(RESPONSES["EMPTY"])
+                return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), empty_message)
+
+            # Verifica se existe conteúdo na resposta da API
+            # de acordo com a linha temporal
+            if eva_response["after_2015"]:
+                response_message = CertificateResponseWriter.after_2015_response(
+                    eva_response["after_2015"])
+
                 BOT.sendMessage(MessageInfoHandler.get_chat_id(
-                    msg), eva_response["after_2015"])
-            except KeyError:
-                pass
-            try:
+                    msg), response_message)
+
+            if eva_response["between_2013_to_2014"]:
+                response_message = CertificateResponseWriter.between_2013_to_2014_response(
+                    eva_response["between_2013_to_2014"])
+
                 BOT.sendMessage(MessageInfoHandler.get_chat_id(
-                    msg), eva_response["between_2013_to_2014"])
-            except KeyError:
-                pass
-            try:
+                    msg), response_message)
+
+            if eva_response["before_2013"]:
+                response_message = CertificateResponseWriter.before_2013_response(
+                    eva_response["before_2013"])
+
                 BOT.sendMessage(MessageInfoHandler.get_chat_id(
-                    msg), eva_response["before_2013"])
-            except KeyError:
-                pass
+                    msg), response_message)
 
             return
 
         elif intent == "open_to_subscription":
             # Envia uma mensagem pedindo desculpas pela demora
             apologize_message = choice(RESPONSES["APOLOGIZE"])
-            BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), apologize_message)
-            
+            BOT.sendMessage(MessageInfoHandler.get_chat_id(
+                msg), apologize_message)
+            # O dado está 'mockado', por falta de informação disponível no database
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), "Você não possui inscrições abertas no momento.")
 
         else:  # default
-            eva_message = ResponseHandlers.get_message(response)
-            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), eva_message)
+            response_message = choice(RESPONSES["DEFAULT"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
