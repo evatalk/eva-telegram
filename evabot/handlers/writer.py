@@ -14,7 +14,8 @@ class Jsonifier(object):
 class HistoryResponseWriter(object):
     @classmethod
     def concatenate_data(cls, content):
-        BASE = "Curso: {}\nSituação da matrícula: {}\nSituação da turma: {}"
+        TEXT_INDEX = 0
+        BASE = RESPONSES["EVA_USER_HISTORY"][TEXT_INDEX]
         history = []
         for data in content:
             history.append(BASE.format(
@@ -29,19 +30,19 @@ class HistoryResponseWriter(object):
 class CertificateResponseWriter(object):
     @classmethod
     def after_2015_response(cls, content):
-        BASE_AFTER_2015 = RESPONSES["FINISHED_COURSES"]["after_2015"]
+        BASE_AFTER_2015 = RESPONSES["EVA_USER_CERTIFICATE"]["after_2015"]
         finished_courses = cls._get_list_of_finished_courses(content)
         return cls._concatenate_information_to_text(BASE_AFTER_2015, finished_courses)
 
     @classmethod
     def between_2013_to_2014_response(cls, content):
-        BASE_BETWEEN_2013_to_2014 = RESPONSES["FINISHED_COURSES"]["between_2013_to_2014"]
+        BASE_BETWEEN_2013_to_2014 = RESPONSES["EVA_USER_CERTIFICATE"]["between_2013_to_2014"]
         finished_courses = cls._get_list_of_finished_courses(content)
         return cls._concatenate_information_to_text(BASE_BETWEEN_2013_to_2014, finished_courses)
 
     @classmethod
     def before_2013_response(cls, content):
-        BASE_BEFORE_2013 = RESPONSES["FINISHED_COURSES"]["before_2013"]
+        BASE_BEFORE_2013 = RESPONSES["EVA_USER_CERTIFICATE"]["before_2013"]
         finished_courses = cls._get_list_of_finished_courses(content)
         return cls._concatenate_information_to_text(BASE_BEFORE_2013, finished_courses)
 

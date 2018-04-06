@@ -41,7 +41,7 @@ class EVAController(object):
             conn.register_trial(telegram_user_id)
             conn.close_connection()
 
-            response = choice(RESPONSES["NOT_REGISTERED_MESSAGES"])
+            response = choice(RESPONSES["EVA_NOT_REGISTERED_MESSAGES"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
         # Verificar qual o número de tentativa do usuário e atualizar
@@ -52,7 +52,7 @@ class EVAController(object):
 
         # Verifica se o usuário está bloqueado
         if Verifier.is_blocked(telegram_user_id):
-            response = choice(RESPONSES["BLOCKED"])
+            response = choice(RESPONSES["EVA_BLOCKED"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
         # Verifica se o usuário já possui as três tentativas e está
@@ -64,7 +64,7 @@ class EVAController(object):
             conn.update_trial(telegram_user_id, 0)
             conn.close_connection()
 
-            response = choice(RESPONSES["BLOCKED"])
+            response = choice(RESPONSES["EVA_BLOCKED"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
         # Recebe a mensagem enviada pelo usuário afim de retirar as credenciais
@@ -90,14 +90,14 @@ class EVAController(object):
             conn.update_trial(telegram_user_id, int(trial) + 1)
             conn.close_connection()
 
-            response = choice(RESPONSES["MALFORMED_MESSAGE_CREDENTIALS"])
+            response = choice(RESPONSES["EVA_MALFORMED_MESSAGE_CREDENTIALS"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
         # Jsonifica as mensagens
         credentials = Jsonifier.user_credentials(received_message)
 
         # Manda msg para usuário informando que a consulta está sendo feita.
-        response = choice(RESPONSES["REGISTER_WAIT_MESSAGES"])
+        response = choice(RESPONSES["EVA_REGISTER_WAIT_MESSAGES"])
         BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
         # Enviar os dados Jsonificados para a API
@@ -113,7 +113,7 @@ class EVAController(object):
             conn.update_trial(telegram_user_id, int(trial) + 1)
             conn.close_connection()
 
-            response = choice(RESPONSES["WRONG_CREDENTIALS"])
+            response = choice(RESPONSES["EVA_WRONG_CREDENTIALS"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
         # Registra usuário no nosso banco de dados
@@ -121,7 +121,7 @@ class EVAController(object):
         conn.register_token(telegram_user_name, user_token, telegram_user_id)
         conn.close_connection()
 
-        response = choice(RESPONSES["WELCOME"])
+        response = choice(RESPONSES["EVA_WELCOME"])
         BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response)
 
     @classmethod
@@ -130,7 +130,7 @@ class EVAController(object):
 
         # Envia uma mensagem para informar ao usuário que os dados
         # estão sendo processados
-        wait_message = choice(RESPONSES["WAIT_MESSAGES"])
+        wait_message = choice(RESPONSES["EVA_WAIT_MESSAGES"])
         BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), wait_message)
 
         response = request.post(msg, access_token)
@@ -140,25 +140,33 @@ class EVAController(object):
 
     @classmethod
     def intent_map(cls, msg, intent, response):
-        if intent == "greetings":
-            response_message = choice(RESPONSES["GREETINGS"])
+        if intent == "eva_greetings":
+            response_message = choice(RESPONSES["EVA_GREETINGS"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
 
-        elif intent == "cursing":
-            response_message = choice(RESPONSES["CURSING"])
+        elif intent == "eva_how_are_you":
+            response_message = choice(RESPONSES["EVA_HOW_ARE_YOU"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
 
-        elif intent == "history":
+        elif intent == "eva_love":
+            response_message = choice(RESPONSES["EVA_LOVE"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
+
+        elif intent == "eva_non_cursing":
+            response_message = choice(RESPONSES["EVA_NON_CURSING"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
+
+        elif intent == "eva_user_history":
             eva_response = ResponseHandlers.get_content(response)
 
             history = HistoryResponseWriter.concatenate_data(eva_response)
             # Checa a fim de verificar se existem dados a serem exibidos.
             if not history:
-                empty_message = choice(RESPONSES["EMPTY"])
+                empty_message = choice(RESPONSES["EVA_EMPTY_RESPONSE"])
                 return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), empty_message)
 
             # Envia uma mensagem pedindo desculpas pela demora
-            apologize_message = choice(RESPONSES["APOLOGIZE"])
+            apologize_message = choice(RESPONSES["EVA_APOLOGIZE"])
             BOT.sendMessage(MessageInfoHandler.get_chat_id(
                 msg), apologize_message)
 
@@ -168,11 +176,11 @@ class EVAController(object):
 
             return
 
-        elif intent == "certificate":
+        elif intent == "eva_user_certificate":
             eva_response = ResponseHandlers.get_content(response)
 
             # Envia uma mensagem pedindo desculpas pela demora
-            apologize_message = choice(RESPONSES["APOLOGIZE"])
+            apologize_message = choice(RESPONSES["EVA_APOLOGIZE"])
 
             BOT.sendMessage(MessageInfoHandler.get_chat_id(
                 msg), apologize_message)
@@ -182,7 +190,7 @@ class EVAController(object):
                 and not eva_response["between_2013_to_2014"]
                     and not eva_response["before_2013"]):
 
-                empty_message = choice(RESPONSES["EMPTY"])
+                empty_message = choice(RESPONSES["EVA_EMPTY"])
                 return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), empty_message)
 
             # Verifica se existe conteúdo na resposta da API
@@ -210,14 +218,14 @@ class EVAController(object):
 
             return
 
-        elif intent == "open_to_subscription":
+        elif intent == "eva_user_courses_open_to_subscription":
             # Envia uma mensagem pedindo desculpas pela demora
-            apologize_message = choice(RESPONSES["APOLOGIZE"])
+            apologize_message = choice(RESPONSES["EVA_APOLOGIZE"])
             BOT.sendMessage(MessageInfoHandler.get_chat_id(
                 msg), apologize_message)
             # O dado está 'mockado', por falta de informação disponível no database
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), "Você não possui inscrições abertas no momento.")
 
         else:  # default
-            response_message = choice(RESPONSES["DEFAULT"])
+            response_message = choice(RESPONSES["EVA_DEFAULT"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
