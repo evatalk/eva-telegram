@@ -14,7 +14,8 @@ class Jsonifier(object):
 class HistoryResponseWriter(object):
     @classmethod
     def concatenate_data(cls, content):
-        BASE = "Curso: {}\nSituação da matrícula: {}\nSituação da turma: {}"
+        TEXT_INDEX = 0
+        BASE = RESPONSES["EVA_USER_HISTORY"][TEXT_INDEX]
         history = []
         for data in content:
             history.append(BASE.format(
