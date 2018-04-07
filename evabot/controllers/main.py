@@ -185,6 +185,14 @@ class EVAController(object):
             BOT.sendMessage(MessageInfoHandler.get_chat_id(
                 msg), apologize_message)
 
+            # Informa ao usuário porque os certificados estão com instruções
+            # de emissão diferentes
+            information_about_certificates = choice(
+                RESPONSES["EVA_INFORMATION_CERTIFICATE"])
+
+            BOT.sendMessage(MessageInfoHandler.get_chat_id(
+                msg), information_about_certificates)
+
             # Checa a fim de verificar se existem dados a serem exibidos.
             if (not eva_response["after_2015"]
                 and not eva_response["between_2013_to_2014"]
