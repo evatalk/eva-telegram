@@ -43,10 +43,11 @@ RESPONSES = {
         "Não utilize esse tipo de linguajar!! :("],
     "EVA_USER_HISTORY": [
         "Curso: {}\nSituação da matrícula: {}\nSituação da turma: {}"],
+    "EVA_INFORMATION_CERTIFICATE": ["A emissão de certificado é realizada de acordo com o período em que você finalizou o curso, siga as instruções abaixo:"],
     "EVA_USER_CERTIFICATE": {
-        "after_2015": "Você finalizou o(s) seguinte(s) curso(s):\n- {}.\n\n Para emitir o certificado dos cursos relacionados acima, acesse: https://ava.enap.gov.br",
-        "between_2013_to_2014": "Você finalizou o(s) seguinte(s) curso(s):\n- {}.\n\n Para emitir o certificado dos cursos relacionados acima, acesse: https://moodle23.enap.gov.br/",
-        "before_2013": "Você finalizou o(s) seguinte(s) curso(s):\n- {}.\n\n Para emitir o certificado dos cursos relacionados acima, envie um e-mail para 'ead@enap.gov.br', com o título do curso que você deseja emitir o certificado"},
+        "after_2015": "Você finalizou o(s) seguinte(s) curso(s) no período de 2015 em diante:\n- {}.\n\n Para emitir o certificado de algum curso relacionado acima, acesse: https://ava.enap.gov.br",
+        "between_2013_to_2014": "Você finalizou o(s) seguinte(s) curso(s) no período de 2013 a 2014:\n- {}.\n\n Para emitir o certificado de algum curso relacionado acima, acesse: https://moodle23.enap.gov.br/",
+        "before_2013": "Você finalizou o(s) seguinte(s) curso(s) no período anterior a 2013:\n- {}.\n\n Para emitir o certificado de algum curso relacionado acima, envie um e-mail para 'ead@enap.gov.br', com o título do curso que você deseja emitir o certificado."},
     "EVA_USER_COURSES_OPEN_TO_SUBSCRIPTION": [],
     "EVA_EMPTY_RESPONSE": [
         "Parece que você não tem nenhuma informação a ser exibida. ;/",
