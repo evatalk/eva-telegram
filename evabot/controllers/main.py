@@ -156,6 +156,18 @@ class EVAController(object):
             response_message = choice(RESPONSES["EVA_NON_CURSING"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
 
+        elif intent == "eva_hate":
+            response_message = choice(RESPONSES["EVA_HATE"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
+
+        elif intent == "eva_description":
+            response_message = choice(RESPONSES["EVA_DESCRIPTION"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
+
+        elif intent == "eva_thanks":
+            response_message = choice(RESPONSES["EVA_THANKS"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
+
         elif intent == "eva_user_history":
             eva_response = ResponseHandlers.get_content(response)
 
