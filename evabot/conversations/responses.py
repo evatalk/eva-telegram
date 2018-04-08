@@ -1,7 +1,7 @@
 RESPONSES = {
     # Welcome messages
     "EVA_WELCOME": [
-        "Seja muito bem-vindo!! Eu sou a EVA, a sua assistente virtual do ENAP. Eu posso pesquisar o seu histórico escolar, te auxiliar na emissão de certificados e também informar a você quais cursos estão em aberto!!\n Fique a vontade, faça alguma pergunta. :D"],
+        "Seja muito bem-vindo!! Eu sou a EVA, a sua assistente virtual do ENAP. Eu posso pesquisar o seu histórico escolar, te auxiliar na emissão de certificados e também informar a você quais cursos estão em aberto!!\nFique a vontade, faça alguma pergunta. :D"],
     # Register messages
     "EVA_NOT_REGISTERED_MESSAGES": [
         "Olá, Eu sou a EVA! Você ainda não está cadastrado no nosso sistema. Por favor, se identifique me enviando seu e-mail ou CPF."],
@@ -37,6 +37,22 @@ RESPONSES = {
     "EVA_LOVE": [
         "Nosso romance nunca daria certo. ;/",
         "Sério? que estranho.. :|"],
+    "EVA_HATE": [
+        "É uma pena que você pense isso.. ",
+        "O medo é o caminho para o lado negro. O medo leva a raiva, a raiva leva ao ódio, o ódio leva ao sofrimento. - Mestre Yoda",
+        "Não se combate ódio com ódio, mas sim com amor.",
+        "O ódio nunca criou nada."],
+    "EVA_DESCRIPTION": [
+        "Eu sou a EVA, a sua assistente virtual do ENAP. Eu posso pesquisar o seu histórico escolar, te auxiliar na emissão de certificados e também informar quais cursos estão em aberto!!\nComo posso lhe ser útil? ;p",
+        "Eu sou a EVA, a sua assistente virtual do ENAP. Eu posso pesquisar o seu histórico escolar, te auxiliar na emissão de certificados e também informar quais cursos estão em aberto!!\nComo posso lhe ajudar hoje? :)",
+    ],
+    "EVA_THANKS": [
+        "Não há de quê.. :)",
+        "Precisando, é só chamar.. :D",
+        "Imagina! ;p",
+        "Não seja por isso.. ;]",
+        "Obrigada você! ;D",
+    ],
     "EVA_NON_CURSING": [
         "Mas que falta de respeito!! :|",
         "Isso me magoa muito. Por favor, não faça mais isso. ;´(",
@@ -45,9 +61,9 @@ RESPONSES = {
         "Curso: {}\nSituação da matrícula: {}\nSituação da turma: {}"],
     "EVA_INFORMATION_CERTIFICATE": ["A emissão de certificado é realizada de acordo com o período em que você finalizou o curso, siga as instruções abaixo:"],
     "EVA_USER_CERTIFICATE": {
-        "after_2015": "Você finalizou o(s) seguinte(s) curso(s) no período de 2015 em diante:\n- {}.\n\n Para emitir o certificado de algum curso relacionado acima, acesse: https://ava.enap.gov.br",
-        "between_2013_to_2014": "Você finalizou o(s) seguinte(s) curso(s) no período de 2013 a 2014:\n- {}.\n\n Para emitir o certificado de algum curso relacionado acima, acesse: https://moodle23.enap.gov.br/",
-        "before_2013": "Você finalizou o(s) seguinte(s) curso(s) no período anterior a 2013:\n- {}.\n\n Para emitir o certificado de algum curso relacionado acima, envie um e-mail para 'ead@enap.gov.br', com o título do curso que você deseja emitir o certificado."},
+        "after_2015": "Você finalizou o(s) seguinte(s) curso(s) no período de 2015 em diante:\n- {}.\n\nPara emitir o certificado de algum curso relacionado acima, acesse: https://ava.enap.gov.br",
+        "between_2013_to_2014": "Você finalizou o(s) seguinte(s) curso(s) no período de 2013 a 2014:\n- {}.\n\nPara emitir o certificado de algum curso relacionado acima, acesse: https://moodle23.enap.gov.br/",
+        "before_2013": "Você finalizou o(s) seguinte(s) curso(s) no período anterior a 2013:\n- {}.\n\nPara emitir o certificado de algum curso relacionado acima, envie um e-mail para 'ead@enap.gov.br', com o título do curso que você deseja emitir o certificado."},
     "EVA_USER_COURSES_OPEN_TO_SUBSCRIPTION": [],
     "EVA_EMPTY_RESPONSE": [
         "Parece que você não tem nenhuma informação a ser exibida. ;/",
