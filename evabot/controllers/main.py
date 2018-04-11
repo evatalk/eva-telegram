@@ -156,6 +156,18 @@ class EVAController(object):
             response_message = choice(RESPONSES["EVA_NON_CURSING"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
 
+        elif intent == "eva_hate":
+            response_message = choice(RESPONSES["EVA_HATE"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
+
+        elif intent == "eva_description":
+            response_message = choice(RESPONSES["EVA_DESCRIPTION"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
+
+        elif intent == "eva_thanks":
+            response_message = choice(RESPONSES["EVA_THANKS"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
+
         elif intent == "eva_user_history":
             eva_response = ResponseHandlers.get_content(response)
 
@@ -184,6 +196,14 @@ class EVAController(object):
 
             BOT.sendMessage(MessageInfoHandler.get_chat_id(
                 msg), apologize_message)
+
+            # Informa ao usuário porque os certificados estão com instruções
+            # de emissão diferentes
+            information_about_certificates = choice(
+                RESPONSES["EVA_INFORMATION_CERTIFICATE"])
+
+            BOT.sendMessage(MessageInfoHandler.get_chat_id(
+                msg), information_about_certificates)
 
             # Checa a fim de verificar se existem dados a serem exibidos.
             if (not eva_response["after_2015"]
