@@ -5,11 +5,6 @@ from telepot.loop import MessageLoop
 from handlers.reader import MessageInfoHandler
 from controllers.main import EVAController
 
-# def handle(msg):
-#    # Chamar o controller
-#    BOT.sendMessage(MessageInfoHandler.get_chat_id(msg),
-#                    Response.request_to_response(msg))
-
 
 def main():
     eva = EVAController()

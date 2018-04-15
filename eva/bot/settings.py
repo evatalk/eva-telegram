@@ -1,12 +1,12 @@
 import os
-from os.path import abspath, dirname, join
+from os.path import abspath, dirname, join, realpath
 
 from dotenv import load_dotenv
 
 import telepot
 
 # Create .env file path.
-BASE_PATH = abspath(join(dirname(__file__), os.pardir))
+BASE_PATH = dirname(dirname(dirname(realpath(__file__))))
 
 dotenv_path = join(BASE_PATH, '.env')
 
