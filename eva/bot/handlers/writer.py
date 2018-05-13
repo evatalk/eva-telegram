@@ -20,8 +20,9 @@ class HistoryResponseWriter(object):
         for data in content:
             history.append(BASE.format(
                 data["course_name"],
+                data["course_workload"],
                 data["enrollment_status"],
-                data["class_status"],
+                data["class_status"].strip(" "),
             ))
 
         return history
@@ -60,6 +61,6 @@ class CertificateResponseWriter(object):
         course_names = []
 
         for data in dict_data:
-            course_names.append(data["course_name"])
+            course_names.append("{} (CH - {} horas)".format(data["course_name"], data["workload"]))
 
         return course_names

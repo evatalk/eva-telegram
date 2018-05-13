@@ -23,6 +23,12 @@ class Connection(object):
 
         return self.cursor.fetchone()
 
+    def delete_token(self, telegram_id):
+        self.cursor.execute(
+            "DELETE FROM users WHERE telegram_id = ?", (telegram_id,))
+
+        self.conn.commit()
+
     def register_step(self, telegram_id):
         self.cursor.execute("""
             INSERT INTO registerstep (step, telegram_id)

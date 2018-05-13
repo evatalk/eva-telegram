@@ -136,10 +136,10 @@ class EVAController(object):
         response = request.post(msg, access_token)
 
         intent = ResponseHandlers.get_intent(response)
-        return cls.intent_map(msg, intent, response)
+        return cls.intent_map(msg, intent, response, access_token)
 
     @classmethod
-    def intent_map(cls, msg, intent, response):
+    def intent_map(cls, msg, intent, response, access_token):
         if intent == "eva_greetings":
             response_message = choice(RESPONSES["EVA_GREETINGS"])
             return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
@@ -243,8 +243,19 @@ class EVAController(object):
             apologize_message = choice(RESPONSES["EVA_APOLOGIZE"])
             BOT.sendMessage(MessageInfoHandler.get_chat_id(
                 msg), apologize_message)
-            # O dado está 'mockado', por falta de informação disponível no database
-            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), "Você não possui inscrições abertas no momento.")
+            # Está funcionalidade será desenvolvida futuramente
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), choice(RESPONSES["EVA_EMPTY_RESPONSE"]))
+
+        elif intent == "eva_logout":
+            telegram_user_id = MessageInfoHandler.get_user_id(msg)
+
+            conn = Connection()
+            # Desvincula o usuário do chatbot
+            query = conn.delete_token(telegram_user_id)
+            conn.close_connection()
+
+            response_message = choice(RESPONSES["EVA_LOGOUT"])
+            return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), response_message)
 
         else:  # default
             response_message = choice(RESPONSES["EVA_DEFAULT"])
