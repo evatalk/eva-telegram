@@ -25,20 +25,6 @@ class Verifier(object):
         return user_register_step is None
 
     @classmethod
-    def only_numbers(cls, entry):
-        try:
-            new_entry = int(entry)
-        except ValueError:
-            return False
-        return True
-
-    @classmethod
-    def is_email(cls, entry):
-        if re.match(r"[^@]+@[^@]+\.[^@]+", entry):
-            return True
-        return False
-
-    @classmethod
     def is_blocked(cls, telegram_id):
         conn = Connection()
         trials = conn.get_blocked_date(telegram_id)
@@ -61,4 +47,18 @@ class Verifier(object):
             trials = trials_tuple[INDEX_NUMBER_OF_TRIALS]
             return trials >= 3
 
+        return False
+
+    @classmethod
+    def only_numbers(cls, entry):
+        try:
+            new_entry = int(entry)
+        except ValueError:
+            return False
+        return True
+
+    @classmethod
+    def is_email(cls, entry):
+        if re.match(r"[^@]+@[^@]+\.[^@]+", entry):
+            return True
         return False

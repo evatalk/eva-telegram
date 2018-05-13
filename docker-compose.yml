@@ -1,6 +1,6 @@
 bot:
   build: .
-  command: python evabot/app.py
+  command: python eva/bot/app.py
   stdin_open: true
   tty: true
   volumes:
