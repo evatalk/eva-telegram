@@ -210,7 +210,7 @@ class EVAController(object):
                 and not eva_response["between_2013_to_2014"]
                     and not eva_response["before_2013"]):
 
-                empty_message = choice(RESPONSES["EVA_EMPTY"])
+                empty_message = choice(RESPONSES["EVA_EMPTY_RESPONSE"])
                 return BOT.sendMessage(MessageInfoHandler.get_chat_id(msg), empty_message)
 
             # Verifica se existe conteúdo na resposta da API
